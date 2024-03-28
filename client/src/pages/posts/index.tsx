@@ -1,5 +1,7 @@
 import { GetServerSideProps } from "next";
 import { apiService } from "../../services/apiService";
+import { Post } from "@/interfaces/Post";
+import PostCard from "@/components/PostCard";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await apiService.listPosts();
@@ -8,12 +10,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-function Posts({ posts }: { posts: any[] }) {
+function Posts({ posts }: { posts: Post[] }) {
   return (
     <div>
       {posts.map((post) => (
         <div key={post.id}>
-          <h2>{post.title}</h2>
+          <PostCard title={post.title} desc={post.desc} />
         </div>
       ))}
     </div>
