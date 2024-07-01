@@ -7,6 +7,7 @@ import (
 // User represents the structure of our user
 type User struct {
 	gorm.Model
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
+	Title string  `json:"title"`
+	Desc  string  `json:"desc"`
+	Posts *[]Post `json:"posts"`
 }

@@ -1,5 +1,3 @@
-// components/PostCard.js
-
 interface PostCardProps {
   title: string;
   desc: string;

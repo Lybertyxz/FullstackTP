@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"server/internal/handlers"
 	"server/internal/middleware"
-	"server/internal/migrations"
 	"server/internal/services"
 )
 
@@ -16,7 +15,7 @@ func main() {
 
 	appCtx := services.NewAppContext()
 
-	migrations.AutoMigrate(appCtx.GormDB)
+	// migrations.AutoMigrate(appCtx.GormDB)
 
 	mux := http.NewServeMux()
 

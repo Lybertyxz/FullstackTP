@@ -1,12 +1,13 @@
 import { FormEvent, useState } from "react";
 import { apiService } from "../services/apiService";
+import { Post } from "@/interfaces/models";
 
 function CreatePost() {
-  const [post, setPost] = useState({ title: "", desc: "" });
+  const [post, setPost] = useState<Post>({ title: "", desc: "" });
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    await apiService.createPost(post);
+    await apiService.posts.createPost(post);
   };
 
   return (

@@ -1,10 +1,10 @@
 import { GetServerSideProps } from "next";
 import { apiService } from "../../services/apiService";
-import { Post } from "@/interfaces/Post";
 import PostCard from "@/components/PostCard";
+import { Post } from "@/interfaces/models";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const posts = await apiService.listPosts();
+  const posts = await apiService.posts.getPosts();
   return {
     props: { posts },
   };
