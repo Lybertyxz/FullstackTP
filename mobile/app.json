@@ -3,6 +3,10 @@
     "name": "mobile",
     "slug": "journeyapp",
     "version": "1.0.0",
+    "plugins": [
+      "expo-router",
+      "@react-native-google-signin/google-signin"
+    ],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.journeyapp"
@@ -11,10 +15,6 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.journeyapp"
     },
-    "plugins": [
-      "expo-router",
-      "@react-native-google-signin/google-signin"
-    ],
     "extra": {
       "eas": {
         "projectId": "1f264604-bdbf-4a02-8eb4-a8a3569735c1"
