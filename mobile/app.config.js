@@ -10,16 +10,16 @@ export default {
     ],
     android: {
       package: "com.journeyapp",
-      googleServicesFile: "./google-services.json"
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json"
     },
     ios: {
       bundleIdentifier: "com.journeyapp",
-      googleServicesFile: "./GoogleService-Info.plist",
+      googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST || "./GoogleService-Info.plist",
       supportsTablet: true
     },
     extra: {
       eas: {
-        projectId: "1f264604-bdbf-4a02-8eb4-a8a3569735c1"
+        projectId: process.env.EAS_PROJECT_ID
       },
       firebase: {
         apiKey: process.env.EXPO_PUBLIC_API_KEY,
