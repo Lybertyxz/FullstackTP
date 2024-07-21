@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 
-const HomeScreen = () => {
+const DetailsScreen = () => {
+  const { id } = useLocalSearchParams();
+
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
-      <Link href="/details/1">View first user details</Link>
-      <Link href="/details/2">View second user details</Link>
+      <Text>Details of user {id} </Text>
     </View>
   );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default DetailsScreen;

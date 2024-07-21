@@ -1,29 +1,25 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  User,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-} from "firebase/auth";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { auth } from "../firebaseConfig";
+import { onAuthStateChanged, User } from "firebase/auth";
 
-interface AuthContextProps {
+type AuthContextType = {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
-}
+};
 
-const AuthContext = createContext<AuthContextProps>({
-  user: null,
-  loading: true,
-  signIn: async () => {},
-  signOut: async () => {},
-});
+type AuthProviderProps = {
+  children: ReactNode;
+};
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,23 +28,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(user);
       setLoading(false);
     });
-
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const signOut = async () => {
-    await firebaseSignOut(auth);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
