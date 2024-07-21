@@ -4,18 +4,22 @@ export default {
     slug: "journeyapp",
     version: "1.0.0",
     platforms: ["ios", "android"],
+    plugins: [
+      "expo-router",
+      "@react-native-google-signin/google-signin"
+    ],
     android: {
       package: "com.journeyapp",
-      googleServicesFile: process.env.GOOGLE_SERVICES_JSON
+      googleServicesFile: "./google-services.json"
     },
     ios: {
       bundleIdentifier: "com.journeyapp",
-      googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
+      googleServicesFile: "./GoogleService-Info.plist",
       supportsTablet: true
     },
     extra: {
       eas: {
-        projectId: process.env.EAS_PROJECT_ID
+        projectId: "1f264604-bdbf-4a02-8eb4-a8a3569735c1"
       },
       firebase: {
         apiKey: process.env.EXPO_PUBLIC_API_KEY,
