@@ -1,5 +1,6 @@
+// app/(auth)/register.tsx
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button } from "react-native";
 import { useRouter } from "expo-router";
 import AuthInput from "../../components/AuthInput";
 import useEmailPasswordAuth from "../../hooks/useEmailPasswordAuth";
@@ -16,8 +17,8 @@ const Register = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+    <View className="flex-1 justify-center p-4">
+      <Text className="text-2xl mb-4 text-center">Register</Text>
       <AuthInput
         placeholder="Email"
         value={email}
@@ -30,29 +31,11 @@ const Register = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      {error && <Text style={styles.error}>{error}</Text>}
+      {error && <Text className="text-red-500 text-center mb-4">{error}</Text>}
       <Button title="Register" onPress={handleRegister} disabled={loading} />
       <Button title="Sign In" onPress={() => router.push("/auth/sign-in")} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-    textAlign: "center",
-  },
-  error: {
-    color: "red",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-});
 
 export default Register;

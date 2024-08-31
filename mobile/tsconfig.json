@@ -7,7 +7,6 @@
         "./*"
       ]
     },
-    "useUnknownInCatchVariables": false
   },
   "include": [
     "**/*.ts",

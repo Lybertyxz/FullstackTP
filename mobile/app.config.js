@@ -1,6 +1,6 @@
 export default {
   expo: {
-    name: "mobile",
+    name: "JourneyApp",
     slug: "journeyapp",
     scheme: "journeyapp",
     version: "1.0.0",

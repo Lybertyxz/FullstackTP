@@ -1,9 +1,11 @@
+// app/(auth)/sign-in.tsx
 import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import { useRouter } from "expo-router";
+import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 import AuthInput from "../../components/AuthInput";
 import useEmailPasswordAuth from "../../hooks/useEmailPasswordAuth";
-import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +20,7 @@ const SignIn = () => {
     signInWithGoogle,
     loading: googleLoading,
     error: googleError,
+    signOut,
   } = useGoogleAuth();
 
   const handleSignIn = async () => {
@@ -52,10 +55,10 @@ const SignIn = () => {
         <Text className="text-red-500 text-center mb-4">{googleError}</Text>
       )}
       <Button title="Sign In" onPress={handleSignIn} disabled={emailLoading} />
-      <Button
-        title="Sign In with Google"
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Standard}
+        color={GoogleSigninButton.Color.Dark}
         onPress={handleGoogleSignIn}
-        disabled={googleLoading}
       />
       <Button title="Register" onPress={() => router.push("/auth/register")} />
     </View>

@@ -1,25 +1,52 @@
-import { useState } from "react";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// hooks/useGoogleAuth.ts
+import { useState, useEffect } from "react";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { GoogleAuthProvider, signInWithCredential, User } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
-const useGoogleAuth = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+GoogleSignin.configure({
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+});
 
-  let googleProvider = new GoogleAuthProvider();
+const useGoogleAuth = () => {
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    });
+  }, []);
 
   const signInWithGoogle = async () => {
     setLoading(true);
     try {
-      await signInWithPopup(auth, googleProvider);
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
+      const userCredential = await signInWithCredential(auth, googleCredential);
+      setUserInfo(userCredential.user);
+      setError(null);
     } catch (err) {
-      setError(err.message);
+      setError((err as any).message);
     } finally {
       setLoading(false);
     }
   };
 
-  return { signInWithGoogle, loading, error };
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      await auth.signOut();
+      setUserInfo(null);
+    } catch (err) {
+      setError((err as any).message);
+    }
+  };
+
+  return { userInfo, error, loading, signInWithGoogle, signOut };
 };
 
 export default useGoogleAuth;
